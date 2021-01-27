@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Alumnos_Crud.Models.Alumno>
+
+@{
+    ViewBag.Title = "Lista de Alumnos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Alumnos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "Agregar")
+</p>
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCompleto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Edad)
+        </th>
+        <th>
+
+            @Html.DisplayNameFor(model => model.Sexo)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaRegistro)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @*Llamo nombre completo usando la clase parcial(props)*@
+        @Html.DisplayFor(modelItem => item.NombreCompleto)
+    </td>
+    @*<td>
+            @Html.DisplayFor(modelItem => item.Apellido)
+        </td>*@
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Edad)
+    </td>
+    <td>
+        @{
+            if (item.Sexo == "M")
+            {
+                // @Html.DisplayFor("Masculino");
+                <span>Masculino</span>
+            }
+            else
+            {
+                <span>Femenino</span>
+            }
+        }
+
+    </td>
+    
+        @*Convierto a String la fecha*@
+         
+  
+<td>
+    @*Html.DisplayFor(modelItem => item.FechaRegistro)*@
+    @item.FechaRegistro.ToShortDateString()
+</td>
+    <td>
+        @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+      
+        @Html.ActionLink("Detalles", "DetallesAlumno", new { id = item.Id }) |
+        @Html.ActionLink("Elimnar", "EliminarAlumno", new { id = item.Id }, new { @class = "aEliminar" })
+    </td>
+</tr>
+}
+
+</table>
+@section scripts{
+    <script>
+        $(".aEliminar").click(function (e) {
+            if (!confirm("Está seguro de eliminar?")) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    }
